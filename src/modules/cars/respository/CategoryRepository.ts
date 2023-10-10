@@ -4,7 +4,7 @@ import { ICategoryRepository } from "./ICategoryRepository";
 class CategoryRepository implements ICategoryRepository {
     private categories: Category[] = [];
 
-    create({ name, description }: ICreateCategoryDto): void {
+    create({ name, description }: ICreateCategoryDto): Category {
         const category = new Category();
 
         Object.assign(category, {
@@ -14,6 +14,8 @@ class CategoryRepository implements ICategoryRepository {
         });
 
         this.categories.push(category);
+
+        return category;
     }
 
     list(): Category[] {
