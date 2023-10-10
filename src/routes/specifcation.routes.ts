@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { SpecificationRepository } from "../modules/cars/respository/SpecificationRepository";
+import { SpecificationRepository } from "../modules/cars/respository/impl/SpecificationRepository";
 import { SpecificationService } from "../modules/cars/services/SpecificationService";
 
 const specificationRouter = Router();
@@ -13,6 +13,10 @@ specificationRouter.post("/specifications", (request, response) => {
     response
         .status(201)
         .json(specifcationService.create({ name, description }));
+});
+
+specificationRouter.get("/specifications", (request, response) => {
+    return response.json(specifcationService.list());
 });
 
 export { specificationRouter };

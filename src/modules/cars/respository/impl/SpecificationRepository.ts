@@ -1,4 +1,4 @@
-import { ISpecificationDto, Specification } from "../../../model/Specification";
+import { ISpecificationDto, Specification } from "../../../../model/Specification";
 import { ISpecificationRepository } from "./ISpecificationRepository";
 
 class SpecificationRepository implements ISpecificationRepository {
@@ -12,6 +12,10 @@ class SpecificationRepository implements ISpecificationRepository {
         this.specifications.push(specification);
 
         return specification;
+    }
+
+    list(): Specification[] {
+        return this.specifications;
     }
 }
 export { SpecificationRepository };

@@ -1,5 +1,5 @@
 import { Specification } from "../../../model/Specification";
-import { ISpecificationRepository } from "../respository/ISpecificationRepository";
+import { ISpecificationRepository } from "../respository/impl/ISpecificationRepository";
 
 interface IRequest {
     name: string;
@@ -11,6 +11,10 @@ class SpecificationService {
 
     create({ name, description }: IRequest): Specification {
         return this.specificationRepository.create({ name, description });
+    }
+
+    list() {
+        return this.specificationRepository.list();
     }
 }
 export { SpecificationService };
