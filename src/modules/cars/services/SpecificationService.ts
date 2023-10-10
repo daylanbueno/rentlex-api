@@ -1,5 +1,5 @@
 import { Specification } from "../../../model/Specification";
-import { ISpecificationRepository } from "../respository/impl/ISpecificationRepository";
+import { SpecificationRepository } from "../respository/impl/SpecificationRepository";
 
 interface IRequest {
     name: string;
@@ -7,7 +7,7 @@ interface IRequest {
 }
 
 class SpecificationService {
-    constructor(private specificationRepository: ISpecificationRepository) {}
+    private specificationRepository = SpecificationRepository.getInstance();
 
     create({ name, description }: IRequest): Specification {
         return this.specificationRepository.create({ name, description });

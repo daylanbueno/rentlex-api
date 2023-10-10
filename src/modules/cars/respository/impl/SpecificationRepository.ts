@@ -6,6 +6,14 @@ import { ISpecificationRepository } from "./ISpecificationRepository";
 
 class SpecificationRepository implements ISpecificationRepository {
     private specifications: Specification[] = [];
+    private static INSTANCE: SpecificationRepository;
+
+    public static getInstance(): SpecificationRepository {
+        if (!SpecificationRepository.INSTANCE) {
+            SpecificationRepository.INSTANCE = new SpecificationRepository();
+        }
+        return SpecificationRepository.INSTANCE;
+    }
 
     findByName(name: string): Specification {
         return this.specifications.find((spec) => spec.name === name);
