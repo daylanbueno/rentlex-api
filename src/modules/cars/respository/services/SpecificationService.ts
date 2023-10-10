@@ -1,0 +1,2 @@
+class SpecificationService {}
+export { SpecificationService };

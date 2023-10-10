@@ -1,5 +1,10 @@
 import { v4 as uuidV4 } from "uuid";
 
+interface ICreateCategoryDto {
+    name: string;
+    description: string;
+}
+
 class Category {
     id?: string;
     name: string;
@@ -13,4 +18,4 @@ class Category {
     }
 }
 
-export { Category };
+export { Category, ICreateCategoryDto };
