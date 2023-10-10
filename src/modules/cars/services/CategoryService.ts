@@ -1,4 +1,8 @@
-import { Category } from "../../../model/Category";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { parse } from "csv-parse";
+import fs from "fs";
+
+import { Category, ICreateCategoryDto } from "../../../model/Category";
 import { CategoryRepository } from "../respository/CategoryRepository";
 
 interface IRequest {
@@ -21,6 +25,39 @@ class CategoryService {
 
     list(): Category[] {
         return this.categoryRepository.list();
+    }
+
+    async updateFile(file: Express.Multer.File) {
+        const categories = await this.readCategoryFile(file);
+
+        categories.map(async ({ name, description }) => {
+            const categoryAlreadyExists =
+                this.categoryRepository.findByName(name);
+            if (!categoryAlreadyExists) {
+                this.create({ name, description });
+            }
+        });
+    }
+
+    readCategoryFile(file: Express.Multer.File): Promise<ICreateCategoryDto[]> {
+        return new Promise<ICreateCategoryDto[]>((resolve) => {
+            const stream = fs.createReadStream(file.path);
+
+            const categories: ICreateCategoryDto[] = [];
+
+            const csvFile = parse();
+
+            stream.pipe(csvFile);
+
+            csvFile
+                .on("data", async (line: any) => {
+                    const [name, description] = line;
+                    categories.push({ name, description });
+                })
+                .on("end", () => {
+                    resolve(categories);
+                });
+        });
     }
 }
 
