@@ -1,0 +1,49 @@
+{
+    "openapi": "3.0.0",
+    "info":{
+        "title": "Rentext documentation",
+        "description": "This is an API Rent",
+        "version": "1.0.0",
+        "contact": {
+            "email": "daylansantos@gmail.com"
+        }
+    },
+    "paths": {
+        "/categories": {
+            "post": {
+              "tags": ["Categories"],
+              "summary": "Create a category",
+              "description": "create a new category",
+              "requestBody": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "description": {
+                                    "type": "string"
+                                }
+                            },
+                            "example": {
+                              "name": "SUV",
+                              "description": "Carro de categoria média"
+                            }
+                        }
+                    }
+                }
+              },
+             "responses": {
+                "201": {
+                    "description": "Category created successfully"
+                },
+                "500": {
+                  "description": "Category already exists"
+                }
+             }
+            }
+        }
+    }
+}
