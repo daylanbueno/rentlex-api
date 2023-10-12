@@ -56,6 +56,7 @@ class CategoryService {
                 })
                 .on("end", () => {
                     fs.promises.unlink(file.path); // revomento file of tmp folder
+                    fs.promises.unlink(file.path); // revomento file of tmp folder
                     resolve(categories);
                 });
         });
