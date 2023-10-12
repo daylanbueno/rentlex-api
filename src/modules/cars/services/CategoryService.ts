@@ -2,7 +2,7 @@
 import { parse } from "csv-parse";
 import fs from "fs";
 
-import { Category, ICreateCategoryDto } from "../../../model/Category";
+import { Category, ICreateCategoryDto } from "../../../entity/Category";
 import { CategoryRepository } from "../respository/CategoryRepository";
 
 interface IRequest {

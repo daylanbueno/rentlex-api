@@ -1,7 +1,7 @@
 import {
     ISpecificationDto,
     Specification,
-} from "../../../../model/Specification";
+} from "../../../../entity/Specification";
 
 interface ISpecificationRepository {
     create(data: ISpecificationDto): Specification;
