@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { parse } from "csv-parse";
 import fs from "fs";
+import { inject, injectable } from "tsyringe";
 
 import { Category, ICreateCategoryDto } from "../../../entity/Category";
 import { CategoryRepository } from "../respository/CategoryRepository";
@@ -10,21 +11,32 @@ interface IRequest {
     description: string;
 }
 
+@injectable()
 class CategoryService {
-    private categoryRepository = CategoryRepository.getInstance();
+    constructor(
+        @inject("CategoriesRepository")
+        private categoryRepository: CategoryRepository,
+    ) {}
 
-    create({ name, description }: IRequest): Category {
-        const categoryAlreadyExists = this.categoryRepository.findByName(name);
+    async create({ name, description }: IRequest): Promise<Category> {
+        const categoryAlreadyExists =
+            await this.categoryRepository.findByName(name);
 
         if (categoryAlreadyExists) {
             throw new Error("Category already exists!");
         }
+        const newCategory = await this.categoryRepository.create({
+            name,
+            description,
+        });
 
-        return this.categoryRepository.create({ name, description });
+        return newCategory;
     }
 
-    list(): Category[] {
-        return this.categoryRepository.list();
+    async list(): Promise<Category[]> {
+        const allCategories = await this.categoryRepository.list();
+        console.log("all categories", allCategories);
+        return allCategories;
     }
 
     async updateFile(file: Express.Multer.File) {

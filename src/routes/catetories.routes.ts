@@ -1,26 +1,32 @@
 import { Router } from "express";
 import multer from "multer";
+import { container } from "tsyringe";
 
 import { CategoryService } from "../modules/cars/services/CategoryService";
 
 const categoriesRoutes = Router();
 
-const categoriesService = new CategoryService();
-
 const upload = multer({
     dest: "./tmp",
 });
 
-categoriesRoutes.post("/categories", (request, response) => {
+categoriesRoutes.post("/categories", async (request, response) => {
     const { name, description } = request.body;
 
-    return response
-        .status(201)
-        .json(categoriesService.create({ name, description }));
+    const categoryService = container.resolve(CategoryService);
+
+    const category = await categoryService.create({
+        name,
+        description,
+    });
+
+    return response.status(201).json(category);
 });
 
-categoriesRoutes.get("/categories", (request, response) => {
-    response.json(categoriesService.list());
+categoriesRoutes.get("/categories", async (request, response) => {
+    const categoryService = container.resolve(CategoryService);
+    const allCategories = await categoryService.list();
+    response.json(allCategories);
 });
 
 categoriesRoutes.post(
@@ -28,7 +34,9 @@ categoriesRoutes.post(
     upload.single("file"),
     (request, response) => {
         const { file } = request;
-        categoriesService.updateFile(file);
+        const categoryService = container.resolve(CategoryService);
+
+        categoryService.updateFile(file);
 
         return response.send();
     },

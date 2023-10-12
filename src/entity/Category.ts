@@ -8,7 +8,7 @@ interface ICreateCategoryDto {
 
 @Entity("categories")
 class Category {
-    @PrimaryColumn("id")
+    @PrimaryColumn()
     id?: string;
 
     @Column()
