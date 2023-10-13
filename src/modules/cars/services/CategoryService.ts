@@ -44,7 +44,7 @@ class CategoryService {
 
         categories.map(async ({ name, description }) => {
             const categoryAlreadyExists =
-                this.categoryRepository.findByName(name);
+                await this.categoryRepository.findByName(name);
             if (!categoryAlreadyExists) {
                 this.create({ name, description });
             }
@@ -67,7 +67,6 @@ class CategoryService {
                     categories.push({ name, description });
                 })
                 .on("end", () => {
-                    fs.promises.unlink(file.path); // revomento file of tmp folder
                     fs.promises.unlink(file.path); // revomento file of tmp folder
                     resolve(categories);
                 });

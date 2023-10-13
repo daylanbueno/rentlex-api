@@ -18,19 +18,7 @@
                 "content": {
                     "application/json": {
                         "schema": {
-                            "type": "object",
-                            "properties": {
-                                "name": {
-                                    "type": "string"
-                                },
-                                "description": {
-                                    "type": "string"
-                                }
-                            },
-                            "example": {
-                              "name": "SUV",
-                              "description": "Carro de categoria média"
-                            }
+                            "$ref": "#/definitions/Category"
                         }
                     }
                 }
@@ -54,21 +42,115 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "array",
-                                    "properties": {
-                                        "name": {
-                                            "type": "string"
-                                        },
-                                        "description": {
-                                            "type": "string"
-                                        }
-                                    }
+                                 "$ref":"#/definitions/Category"
                                 }
                             }
 
                         }
                     }
                 }
+            }
+        },
+        "/categories/import": {
+            "post": {
+              "tags": ["Categories"],
+              "summary": "Import csv file",
+              "description": "import csv file to insert categories",
+              "requestBody": {
+                "content": {
+                    "multipart/form-data": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "file": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+
+                        }
+                    }
+                }
+              },
+             "responses": {
+                "201": {
+                    "description": "Created"
+                }
+             }
+            }
+        },
+         "/specifications": {
+            "post": {
+              "tags": ["Specifications"],
+              "summary": "Create a specification",
+              "description": "create a new specification",
+              "requestBody": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                          "$ref": "#/definitions/Specification"
+                        }
+                    }
+                }
+              },
+             "responses": {
+                "201": {
+                    "description": "Specificsation created successfully"
+                },
+                "500": {
+                  "description": "Specificsation already exists"
+                }
+             }
+            },
+            "get": {
+                "tags":["Specifications"],
+                "summary": "List all specifications",
+                "description": "List all specifications",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                   "$ref": "#/definitions/Specification"
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Specification": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                }
+            },
+            "example": {
+              "name": "Specification 1",
+              "description": "description specification 1"
+            }
+        },
+        "Category": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                }
+            },
+            "example": {
+              "name": "SUV",
+              "description": "Carro de categoria média"
             }
         }
     }
