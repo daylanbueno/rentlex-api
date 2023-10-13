@@ -1,3 +1,5 @@
+import { inject, injectable } from "tsyringe";
+
 import { Specification } from "../../../entity/Specification";
 import { SpecificationRepository } from "../respository/impl/SpecificationRepository";
 
@@ -6,15 +8,25 @@ interface IRequest {
     description: string;
 }
 
+@injectable()
 class SpecificationService {
-    private specificationRepository = SpecificationRepository.getInstance();
+    constructor(
+        @inject("SpecificationRepository")
+        private specificationRepository: SpecificationRepository,
+    ) {}
 
-    create({ name, description }: IRequest): Specification {
-        return this.specificationRepository.create({ name, description });
+    async create({ name, description }: IRequest): Promise<Specification> {
+        const entity = await this.specificationRepository.create({
+            name,
+            description,
+        });
+
+        return entity;
     }
 
-    list() {
-        return this.specificationRepository.list();
+    async list() {
+        const all = await this.specificationRepository.list();
+        return all;
     }
 }
 export { SpecificationService };

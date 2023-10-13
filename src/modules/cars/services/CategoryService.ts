@@ -4,7 +4,7 @@ import fs from "fs";
 import { inject, injectable } from "tsyringe";
 
 import { Category, ICreateCategoryDto } from "../../../entity/Category";
-import { CategoryRepository } from "../respository/CategoryRepository";
+import { CategoryRepository } from "../respository/impl/CategoryRepository";
 
 interface IRequest {
     name: string;
