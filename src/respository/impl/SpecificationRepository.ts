@@ -1,6 +1,7 @@
 import { Repository, getRepository } from "typeorm";
 
 import { ISpecificationDto, Specification } from "../../entity/Specification";
+import { AppError } from "../../errors/AppError";
 import { ISpecificationRepository } from "../ISpecificationRepository";
 
 class SpecificationRepository implements ISpecificationRepository {
@@ -16,7 +17,7 @@ class SpecificationRepository implements ISpecificationRepository {
     }: ISpecificationDto): Promise<Specification> {
         const spedificationAlreadyExists = await this.findByName(name);
         if (spedificationAlreadyExists) {
-            throw new Error(`Specification already exists for ${name}`);
+            throw new AppError(`Specification already exists for ${name}`, 422);
         }
 
         const entity = this.repository.create({

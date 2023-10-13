@@ -3,6 +3,7 @@ import { Repository, getRepository } from "typeorm";
 
 import { IUserDto } from "../../dto/IUserDto";
 import { User } from "../../entity/User";
+import { AppError } from "../../errors/AppError";
 import { IUserRepository } from "../IUseRepository";
 
 class UserRepository implements IUserRepository {
@@ -22,7 +23,7 @@ class UserRepository implements IUserRepository {
         const userAlreadyExists = await this.findByUserEmail(email);
 
         if (userAlreadyExists) {
-            throw new Error(`User ${email} already exists`);
+            throw new AppError(`User ${email} already exists`);
         }
 
         const passwordHash = await hash(password, 8);

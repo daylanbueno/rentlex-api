@@ -4,6 +4,7 @@ import fs from "fs";
 import { inject, injectable } from "tsyringe";
 
 import { Category, ICreateCategoryDto } from "../entity/Category";
+import { AppError } from "../errors/AppError";
 import { CategoryRepository } from "../respository/impl/CategoryRepository";
 
 interface IRequest {
@@ -23,7 +24,7 @@ class CategoryService {
             await this.categoryRepository.findByName(name);
 
         if (categoryAlreadyExists) {
-            throw new Error("Category already exists!");
+            throw new AppError("Category already exists!", 422);
         }
         const newCategory = await this.categoryRepository.create({
             name,

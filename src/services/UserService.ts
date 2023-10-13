@@ -5,6 +5,7 @@ import { inject, injectable } from "tsyringe";
 import { IAuthDto, ITokenDto } from "../dto/IAuth";
 import { IUserDto } from "../dto/IUserDto";
 import { User } from "../entity/User";
+import { AppError } from "../errors/AppError";
 import { UserRepository } from "../respository/impl/UserRepository";
 
 @injectable()
@@ -36,13 +37,13 @@ class UserService {
         const user = await this.userRepository.findByUserEmail(email);
 
         if (!user) {
-            throw new Error("Username or password is incorrect");
+            throw new AppError("Username or password is incorrect", 401);
         }
 
         const passwordMatch = compare(password, user.password);
 
         if (!passwordMatch) {
-            throw new Error("Username or password is incorrect");
+            throw new AppError("Username or password is incorrect", 401);
         }
 
         const token = sign({}, "secret", {

@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { verify } from "jsonwebtoken";
 
+import { AppError } from "../errors/AppError";
 import { UserRepository } from "../respository/impl/UserRepository";
 
 export async function authInterceptorRequest(
@@ -10,14 +11,14 @@ export async function authInterceptorRequest(
 ) {
     const headerAuth = request.headers.authorization;
 
-    const authPath = request.path;
+    const authPath = request.originalUrl;
 
     if (authPath === "/auth") {
         next();
     }
 
     if (!headerAuth) {
-        throw new Error("Token is required");
+        throw new AppError("Token is required", 401);
     }
 
     const [, token] = headerAuth.split(" ");
@@ -28,11 +29,11 @@ export async function authInterceptorRequest(
         const user = await new UserRepository().findById(userId as string);
 
         if (!user) {
-            throw new Error("User is not valid!");
+            throw new AppError("User is not valid!", 401);
         }
 
         next();
     } catch (err) {
-        throw new Error("Token is not valid!");
+        throw new AppError("Token is not valid!", 401);
     }
 }
