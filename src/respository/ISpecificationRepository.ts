@@ -1,7 +1,4 @@
-import {
-    ISpecificationDto,
-    Specification,
-} from "../../../entity/Specification";
+import { ISpecificationDto, Specification } from "../entity/Specification";
 
 interface ISpecificationRepository {
     create(data: ISpecificationDto): Promise<Specification>;

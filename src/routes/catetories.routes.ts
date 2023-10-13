@@ -2,7 +2,7 @@ import { Router } from "express";
 import multer from "multer";
 import { container } from "tsyringe";
 
-import { CategoryService } from "../modules/cars/services/CategoryService";
+import { CategoryService } from "../services/CategoryService";
 
 const categoriesRoutes = Router();
 

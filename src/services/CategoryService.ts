@@ -3,7 +3,7 @@ import { parse } from "csv-parse";
 import fs from "fs";
 import { inject, injectable } from "tsyringe";
 
-import { Category, ICreateCategoryDto } from "../../../entity/Category";
+import { Category, ICreateCategoryDto } from "../entity/Category";
 import { CategoryRepository } from "../respository/impl/CategoryRepository";
 
 interface IRequest {

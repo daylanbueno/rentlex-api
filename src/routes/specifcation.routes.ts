@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { container } from "tsyringe";
 
-import { SpecificationService } from "../modules/cars/services/SpecificationService";
+import { SpecificationService } from "../services/SpecificationService";
 
 const specificationRouter = Router();
 

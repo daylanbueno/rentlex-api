@@ -1,6 +1,6 @@
 import { inject, injectable } from "tsyringe";
 
-import { Specification } from "../../../entity/Specification";
+import { Specification } from "../entity/Specification";
 import { SpecificationRepository } from "../respository/impl/SpecificationRepository";
 
 interface IRequest {
