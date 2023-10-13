@@ -1,6 +1,7 @@
+import { hash } from "bcrypt";
 import { Repository, getRepository } from "typeorm";
 
-import { IUserDto } from "../../dto/IUser";
+import { IUserDto } from "../../dto/IUserDto";
 import { User } from "../../entity/User";
 import { IUserRepository } from "../IUseRepository";
 
@@ -13,17 +14,23 @@ class UserRepository implements IUserRepository {
 
     async create({
         name,
-        username,
         email,
         password,
         driverLicense,
         admin,
     }: IUserDto): Promise<User> {
+        const userAlreadyExists = await this.findByUserEmail(email);
+
+        if (userAlreadyExists) {
+            throw new Error(`User ${email} already exists`);
+        }
+
+        const passwordHash = await hash(password, 8);
+
         const entity = this.respository.create({
             name,
-            username,
             email,
-            password,
+            password: passwordHash,
             driverLicense,
             admin,
         });
@@ -31,6 +38,14 @@ class UserRepository implements IUserRepository {
         await this.respository.save(entity);
 
         return entity;
+    }
+
+    async findByUserEmail(email: string): Promise<User> {
+        const user = await this.respository.findOne({
+            email,
+        });
+
+        return user;
     }
 }
 export { UserRepository };

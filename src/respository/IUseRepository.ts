@@ -1,4 +1,4 @@
-import { IUserDto } from "../dto/IUser";
+import { IUserDto } from "../dto/IUserDto";
 import { User } from "../entity/User";
 
 interface IUserRepository {
