@@ -9,18 +9,21 @@ class User {
     name: string;
 
     @Column()
+    email: string;
+
+    @Column()
     username: string;
 
     @Column()
     password: string;
 
-    @Column()
+    @Column({ name: "driver_license" })
     driverLicense: string;
 
     @Column()
     admin: boolean;
 
-    @CreateDateColumn()
+    @CreateDateColumn({ name: "created_at" })
     createAt: Date;
 
     constructor() {
